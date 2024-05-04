@@ -1,7 +1,7 @@
-import * as THREE from "./three.module.min.js";
+import * as THREE from "./ThreeLib/three.module.min.js";
 
 //--------------defining custom geometry-------------------
-export function getCogwheel(notchCount, halfWidth = 0.5) {
+export function getCogwheelGeometry(notchCount, halfWidth = 0.5) {
   if (notchCount < 5) {
     return null;
   }
