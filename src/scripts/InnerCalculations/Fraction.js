@@ -58,7 +58,7 @@ export class Fraction {
     if (this.numerator > 0) {
       newNumerator = this.numerator % this.denominator;
     } else if (this.numerator < 0) {
-      newNumerator = this.denominator - (-this.numerator % this.denominator);
+      newNumerator = -(-this.numerator % this.denominator);
     } else {
       newNumerator = 0;
     }
