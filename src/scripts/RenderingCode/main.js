@@ -1,6 +1,8 @@
 import * as THREE from "./ThreeLib/three.module.min.js";
 import * as CUSTOM_MODELS from "./3D_Models.js";
 import { OrbitControls } from "./ThreeLib/OrbitControls.js";
+import * as GEAR from "../InnerCalculations/Gear.js";
+import * as FRACTION from "../InnerCalculations/Fraction.js";
 
 const renderer = new THREE.WebGLRenderer();
 
@@ -37,51 +39,56 @@ light2.position.set(-10, -50, -5);
 light2.target.position.set(0, 0, 0);
 scene.add(light2);
 
-const testGeometry = CUSTOM_MODELS.getCogwheelGeometry(8, 0.3);
 const testMaterial = new THREE.MeshLambertMaterial({
   color: 0x897351,
   flatShading: true,
 });
-const testObject = new THREE.Mesh(testGeometry, testMaterial);
-scene.add(testObject);
 
-const otherTestGeometry = CUSTOM_MODELS.getCogwheelGeometry(12, 0.3);
-const otherTestObject = new THREE.Mesh(otherTestGeometry, testMaterial);
-scene.add(otherTestObject);
+//define notch counts
+const notchCount1 = 10;
+const notchCount2 = 17;
 
-testObject.position.copy(new THREE.Vector3(-2.5, 0, 0));
-otherTestObject.position.copy(new THREE.Vector3(3.5, 0, 0));
-otherTestObject.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI / 12);
+//create the custom Gear objects to calculate rotation
+const testGear1 = new GEAR.Gear(notchCount1);
+const testGear2 = new GEAR.Gear(notchCount2);
 
-//-----------------------------------------------------------------
+//makes gear1 rotate gear2 recursively (do not connect both, you will create an infinite recursion)
+testGear1.connect(testGear2);
 
-//defining new gear start
-const newMaterial = new THREE.MeshLambertMaterial({
-  flatShading: true,
-  color: 0xff8833,
-});
-const newNotchCount = 17;
-const newGeometry = new CUSTOM_MODELS.getCogwheelGeometry(newNotchCount, 0.3);
-const newGear = new THREE.Mesh(newGeometry, newMaterial);
-//defining new gear end
+//creates the geometry part of the gear mesh objects
+//these values can be used for duplicate gears (exact same dimensions)
+const gear1Geometry = CUSTOM_MODELS.getCogwheelGeometry(notchCount1, 0.3);
+const gear2Geometry = CUSTOM_MODELS.getCogwheelGeometry(notchCount2, 0.3);
 
-//adding gear to scene start
-scene.add(newGear);
-//adding gear to scene end
+//creates the mesh objects that graphically represent the gears
+const gear1Mesh = new THREE.Mesh(gear1Geometry, testMaterial);
+//add the mesh to the scene
+scene.add(gear1Mesh);
+//create offset from the origin so that the gears don't overlap each other (formula is exact)
+//formula: offset = otherGear.center +-(notchCount/4 + 1)
+gear1Mesh.translateOnAxis(new THREE.Vector3(1, 0, 0), notchCount1 / 4 + 1);
 
-//that's it!
+//another mesh for the second gear
+const gear2Mesh = new THREE.Mesh(gear2Geometry, testMaterial);
+scene.add(gear2Mesh);
+gear2Mesh.translateOnAxis(new THREE.Vector3(1, 0, 0), -notchCount2 / 4);
 
-//------------------------------------------------------------------
+//create half a notch of rotational offset (converted to radians) to match gear teeth
+gear2Mesh.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI / notchCount2);
 
-newGear.translateOnAxis(new THREE.Vector3(7, -5, 5).normalize(), 5);
-
-const yAxis = new THREE.Vector3(0, 1, 0);
-
-const rotateAmount = Math.PI / 180;
+// end
 
 function animate(time) {
-  testObject.rotateOnAxis(yAxis, rotateAmount);
-  otherTestObject.rotateOnAxis(yAxis, (-rotateAmount * 2) / 3);
+  testGear1.rotateAngle(new FRACTION.Fraction(1, 600));
+
+  gear1Mesh.rotateOnAxis(
+    new THREE.Vector3(0, 1, 0),
+    testGear1.lastRotation.toRadianAngle()
+  );
+  gear2Mesh.rotateOnAxis(
+    new THREE.Vector3(0, 1, 0),
+    testGear2.lastRotation.toRadianAngle()
+  );
 
   renderer.render(scene, camera);
 }

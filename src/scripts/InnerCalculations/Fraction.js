@@ -1,4 +1,4 @@
-class Fraction {
+export class Fraction {
   constructor(numerator = 0, denominator = 1) {
     this.numerator = numerator;
     this.denominator = denominator === 0 ? 1 : denominator;
@@ -18,6 +18,7 @@ class Fraction {
       this.numerator *= -1;
       this.denominator *= -1;
     }
+    return this;
   }
 
   add(other) {
@@ -50,6 +51,26 @@ class Fraction {
     return new Fraction(this.denominator, this.numerator);
   }
 
+  normalize() {
+    this.simplify();
+    let newNumerator;
+    let oldNumerator = this.numerator;
+    if (this.numerator > 0) {
+      newNumerator = this.numerator % this.denominator;
+    } else if (this.numerator < 0) {
+      newNumerator = this.denominator - (-this.numerator % this.denominator);
+    } else {
+      newNumerator = 0;
+    }
+    let diff = (oldNumerator - newNumerator) / this.denominator;
+    this.numerator = newNumerator;
+    return diff;
+  }
+
+  negate() {
+    return new Fraction(-this.numerator, this.denominator);
+  }
+
   isEqual(other) {
     return (
       this.numerator === other.numerator &&
@@ -69,12 +90,16 @@ class Fraction {
     );
   }
 
+  toRadianAngle() {
+    return (this.numerator * 2 * Math.PI) / this.denominator;
+  }
+
   toString() {
     return `${this.numerator}/${this.denominator}`;
   }
 }
 
-const UNIT = {
+export const UNIT = {
   NONE: "none",
   SPEED: "speed",
   TORQUE: "torque",

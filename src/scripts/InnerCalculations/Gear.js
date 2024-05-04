@@ -1,50 +1,39 @@
-class Gear extends Component {
-  constructor(notchCount, source, name_tag = "") {
-    super(name_tag);
-    this.notchCount = notchCount;
-    this.source = source;
-    this.rotation = Fraction(0);
-    this.isGear = true;
-    this.powByTorque = false;
-    this.powBySpeed = false;
-  }
-  get Power() {
-    return this.source.Power;
-  }
-}
+import { Fraction } from "./Fraction.js";
 
-class BasicGear extends Gear {
-  constructor(notchCount, source, name_tag = "") {
-    super(notchCount, source, name_tag);
-    if (this.source.isConstSpeedSource || this.source.powBySpeed) {
-      this.powBySpeed = true;
-    } else if (this.source.isConstTorqueSource || this.source.powByTorque) {
-      this.powByTorque = true;
-    }
+export class Gear {
+  constructor(notchCount) {
+    this.notchCount = notchCount;
+    this.connections = [];
+    this.fullRotation = 0;
+    this.offsetRotation = new Fraction();
+    this.lastRotation = new Fraction();
   }
-  get Power() {
-    let srcPow = this.source.Power;
-    if (this.source.isConstSpeedSource) {
-      return {
-        amount: srcPow.multiply(new Fraction(this.notchCount)),
-        unit: srcPow.unit,
-      };
-    } else if (this.source.isConstTorqueSource) {
-      return srcPow; //this type of gear doesn't have resistance or friction.
-    } else if (this.source.isGear) {
-      if (this.source.powBySpeed) {
-        return {
-          amount: srcPow.multiply(
-            new Fraction(this.notchCount, this.source.notchCount)
-          ),
-          unit: srcPow.unit,
-        };
-      } else {
-        return srcPow;
-      }
-    } else {
-      return srcPow;
-    }
+
+  connect(otherGear) {
+    this.connections.push(otherGear);
   }
-  Update(tickCount = 1) {}
+
+  rotateNotch(amount) {
+    this.offsetRotation.simplify();
+    if (!amount.isEqual(new Fraction(0))) {
+      const addAmount = amount.divide(new Fraction(this.notchCount));
+      this.offsetRotation = this.offsetRotation.add(addAmount);
+      this.lastRotation = addAmount;
+    }
+    this.fullRotation = this.offsetRotation.normalize();
+    this.connections.forEach((g) => {
+      g.rotateNotch(amount.negate());
+    });
+  }
+
+  rotateAngle(angleFraction) {
+    this.offsetRotation.simplify();
+    this.offsetRotation = this.offsetRotation.add(angleFraction);
+    this.lastRotation = angleFraction;
+    this.fullRotation = this.offsetRotation.normalize();
+    const NC = angleFraction.multiply(new Fraction(-this.notchCount));
+    this.connections.forEach((g) => {
+      g.rotateNotch(NC);
+    });
+  }
 }
