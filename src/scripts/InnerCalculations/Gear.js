@@ -7,6 +7,11 @@ export class Gear {
     this.fullRotation = 0;
     this.offsetRotation = new Fraction();
     this.lastRotation = new Fraction();
+    this.position = { x: 0, y: 0, z: 0 };
+  }
+
+  setPosition(newPosition) {
+    this.position = newPosition;
   }
 
   connect(otherGear) {
