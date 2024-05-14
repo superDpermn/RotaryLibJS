@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(7, 55, 103);
+}
+
+#backButton {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  padding: 25px;
+  font-size: 30px;
+  width: 200px;
+}
+
+#levelButtonContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 50px;
+}
+
+#levelButtonContainer > * {
+  width: 150px;
+  height: 150px;
+  font-size: 50px;
+}

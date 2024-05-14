@@ -1,0 +1,37 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(7, 55, 103);
+}
+
+#titleContainer {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 50px;
+  font-weight: 700;
+  background-color: rgb(40, 137, 150);
+  width: 800px;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  height: fit-content;
+}
+
+#navButtons {
+  position: absolute;
+  top: 400px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  display: grid;
+  gap: 50px;
+  grid-template-columns: 1fr 1fr;
+  height: 70px;
+}
+
+#navButtons button {
+  width: 100%;
+  height: 100%;
+  font-size: 30px;
+}
