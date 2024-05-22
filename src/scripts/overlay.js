@@ -50,3 +50,5 @@ function init() {
 }
 
 document.body.appendChild(init());
+
+toggleOverlay();

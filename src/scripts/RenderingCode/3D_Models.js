@@ -148,7 +148,63 @@ export function getCogwheelGeometry(notchCount, halfWidth = 0.5) {
     "position",
     new THREE.BufferAttribute(arrayVertices, 3)
   );
+  const lineGeometry = new THREE.EdgesGeometry(geometry);
+
+  return [geometry, lineGeometry];
+}
+//------------------------------------------
+
+export function getShaftGeometry(length = 2) {
+  const vertices = [];
+  const indices = [];
+  const radius = 0.5;
+  const newLength = length;
+  const halfLength = newLength / 2;
+  for (let i = 0; i < 6; i++) {
+    let angle = (Math.PI * i) / 3;
+    vertices.push(
+      Math.cos(angle) * radius,
+      -halfLength,
+      Math.sin(angle) * radius,
+      //
+      Math.cos(angle) * radius,
+      halfLength,
+      Math.sin(angle) * radius
+    );
+  }
+  vertices.push(0, -halfLength, 0, 0, halfLength, 0);
+
+  const vLen = vertices.length / 3;
+
+  for (let i = 0; i < 12; i += 2) {
+    indices.push(
+      i % 12,
+      (i + 1) % 12,
+      (i + 2) % 12,
+
+      //
+      (i + 2) % 12,
+      (i + 1) % 12,
+      (i + 3) % 12,
+      //
+
+      i % 12,
+      (i + 2) % 12,
+      vLen - 2,
+      //
+      (i + 1) % 12,
+      vLen - 1,
+      (i + 3) % 12
+    );
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  const arrayVertices = new Float32Array(vertices);
+  geometry.setIndex(indices);
+  geometry.setAttribute(
+    "position",
+    new THREE.BufferAttribute(arrayVertices, 3)
+  );
 
   return geometry;
 }
-//------------------------------------------

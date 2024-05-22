@@ -24,6 +24,7 @@ export class Gear {
     this.lastRotation = new Fraction();
     this.position = position;
     this.angle = new Fraction();
+    this.isGear = true;
   }
 
   setPosition(newPosition) {
@@ -41,8 +42,14 @@ export class Gear {
       y: this.position.y,
       z: this.position.z + Math.sin(angleRadian) * distance,
     };
-    otherGear.setPosition(newPosition);
-    otherGear.align(this);
+    if (otherGear.isGear) {
+      otherGear.setPosition(newPosition);
+      otherGear.align(this);
+    }
+    if (otherGear.isShaft) {
+      otherGear.parentComponent = this;
+      otherGear.offsetRotation = this.offsetRotation;
+    }
   }
 
   align(parent) {
@@ -56,11 +63,17 @@ export class Gear {
       const addAmount = amount.divide(new Fraction(this.notchCount));
       this.offsetRotation = this.offsetRotation.add(addAmount);
       this.lastRotation = addAmount;
+      this.fullRotation = this.offsetRotation.normalize();
+      this.connections.forEach((g) => {
+        if (g.isGear) {
+          g.rotateNotch(amount.negate());
+        } else if (g.isBelt) {
+          g.rotateNotch(amount);
+        } else if (g.isShaft) {
+          g.rotateAngle(addAmount);
+        }
+      });
     }
-    this.fullRotation = this.offsetRotation.normalize();
-    this.connections.forEach((g) => {
-      g.rotateNotch(amount.negate());
-    });
   }
 
   rotateAngle(angleFraction) {
@@ -70,7 +83,13 @@ export class Gear {
     this.fullRotation = this.offsetRotation.normalize();
     const NC = angleFraction.multiply(new Fraction(-this.notchCount));
     this.connections.forEach((g) => {
-      g.rotateNotch(NC);
+      if (g.isGear) {
+        g.rotateNotch(NC);
+      } else if (g.isBelt) {
+        g.rotateNotch(NC.negate());
+      } else if (g.isShaft) {
+        g.rotateAngle(angleFraction);
+      }
     });
   }
 }
