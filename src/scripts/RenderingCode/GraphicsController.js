@@ -15,7 +15,7 @@ export class GraphicsController {
     const customMaterial =
       material ||
       new THREE.MeshLambertMaterial({
-        color: 0x897351,
+        color: 0x89735b,
         flatShading: true,
       });
     const gearMesh = new THREE.Mesh(customGeometry, customMaterial);
