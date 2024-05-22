@@ -11,6 +11,13 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 
 document.body.appendChild(renderer.domElement);
 
+//------------------------------------------------------------
+
+const UIOverlay = document.createElement("div");
+
+document.body.appendChild(UIOverlay);
+
+//------------------------------------------------------------
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(
@@ -43,12 +50,12 @@ const MainGraphicsController = new GraphicsController();
 
 const PowerSource = new ConstantSpeedSource(new Fraction(1, 600));
 
-const Gear1 = new Gear(7);
-const Gear2 = new Gear(10);
-const Gear3 = new Gear(13);
+const Gear1 = new Gear(8);
+const Gear2 = new Gear(8);
+const Gear3 = new Gear(12);
 
-Gear1.connect(Gear2, new Fraction());
-Gear2.connect(Gear3, new Fraction());
+Gear1.connect(Gear2, "LEFT");
+Gear2.connect(Gear3, "UP");
 
 scene.add(MainGraphicsController.addGearToVisual(Gear1));
 scene.add(MainGraphicsController.addGearToVisual(Gear2));
