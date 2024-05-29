@@ -48,8 +48,10 @@ export class GraphicsController {
     return [gearMesh, gearOutline];
   }
 
-  addShaftToVisual(shaft, material = null) {
-    const customGeometry = new CUSTOM_MODELS.getShaftGeometry(5);
+  addShaftToVisual(shaft, dir = 1, material = null) {
+    const customGeometry = new CUSTOM_MODELS.getShaftGeometry(
+      shaft.capacity * 2
+    );
     const customMaterial =
       material ||
       new THREE.MeshLambertMaterial({
@@ -57,10 +59,11 @@ export class GraphicsController {
         flatShading: true,
       });
     const shaftMesh = new THREE.Mesh(customGeometry, customMaterial);
-    const pos = shaft.parentComponent.position || { x: 5, y: -5, z: 0 };
+    const pos = shaft.position || shaft.parentComponent.position;
+
     shaftMesh.translateOnAxis(
-      new THREE.Vector3(pos.x, pos.y, pos.z).normalize(),
-      Math.sqrt(pos.x * pos.x + pos.y * pos.y + pos.z * pos.z)
+      new THREE.Vector3(pos.x, pos.y + shaft.capacity * dir, pos.z).normalize(),
+      Math.hypot(pos.x, pos.y + shaft.capacity * dir, pos.z)
     );
     this.shafts.push(shaft);
     this.shaftMeshArr.push(shaftMesh);

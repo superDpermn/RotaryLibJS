@@ -25,6 +25,8 @@ export class Gear {
     this.position = position;
     this.angle = new Fraction();
     this.isGear = true;
+    this.isShaftConnected = false;
+    this.occuStatus = [true, true, true, true];
   }
 
   setPosition(newPosition) {
@@ -46,10 +48,17 @@ export class Gear {
       otherGear.setPosition(newPosition);
       otherGear.align(this);
     }
-    if (otherGear.isShaft) {
-      otherGear.parentComponent = this;
-      otherGear.offsetRotation = this.offsetRotation;
-    }
+    const arrayIndex =
+      angle == "LEFT"
+        ? 0
+        : angle == "TOP"
+        ? 1
+        : angle == "RIGHT"
+        ? 2
+        : angle == "DOWN"
+        ? 3
+        : 4;
+    this.occuStatus[arrayIndex] = false;
   }
 
   align(parent) {

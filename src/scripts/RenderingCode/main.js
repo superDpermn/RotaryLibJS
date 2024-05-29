@@ -29,10 +29,10 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 
-camera.position.set(40, 25, 20);
+camera.position.set(0, 20, 20);
 const orbit = new OrbitControls(camera, renderer.domElement);
 
-orbit.target.set(40, 0, 0);
+orbit.target.set(0, 0, 0);
 
 orbit.update();
 
@@ -52,55 +52,155 @@ const MainGraphicsController = new GraphicsController();
 
 //---------------------------------------------------------
 
-const PowerSource = new ConstantSpeedSource(new Fraction(1, 6000));
+let tickSpeed = 3;
 
-const Gear1 = new Gear(32);
-Gear1.setPosition({ x: 40, y: 0, z: 0 });
-const Gear2 = new Gear(16);
-const Gear3 = new Gear(24);
-const Gear4 = new Gear(16);
-const t = 0;
-const g = 40 + 20;
-Gear4.setPosition(new THREE.Vector3(g, 0, t));
-const Gear5 = new Gear(8);
-Gear5.setPosition(new THREE.Vector3(g, 2, t));
-const Gear6 = new Gear(64);
+const PowerSource = new ConstantSpeedSource(
+  new Fraction(Math.floor(tickSpeed), 3000)
+);
 
-const Belt1 = new Belt(Gear1, Gear4);
+const gearArr = [new Gear(16)];
+const shaftArr = [];
+const beltArr = [];
 
-Gear1.connect(Belt1);
-const Shaft1 = new Shaft(Gear5);
+const initGear = gearArr[0];
+const temp = MainGraphicsController.addGearToVisual(initGear);
+scene.add(temp[0]);
+scene.add(temp[1]);
 
-Gear1.connect(Gear2, "LEFT");
-Gear2.connect(Gear3, "UP");
-Gear3.connect(Gear6, "UP");
-Gear4.connect(Shaft1);
+function AddGear(notchCount, source, direction = "UP", _color = null) {
+  const checkIndex =
+    direction == "LEFT"
+      ? 0
+      : direction == "TOP"
+      ? 1
+      : direction == "RIGHT"
+      ? 2
+      : direction == "DOWN"
+      ? 3
+      : 4;
+  if (source.isGear && source.occuStatus[checkIndex]) {
+    const _G = new Gear(notchCount);
+    source.connect(_G, direction);
+    gearArr.push(_G);
+    if (_color) {
+      const temp = MainGraphicsController.addGearToVisual(
+        _G,
+        new THREE.MeshLambertMaterial({ flatShading: true, color: _color })
+      );
+      scene.add(temp[0]);
+      scene.add(temp[1]);
+    } else {
+      const temp = MainGraphicsController.addGearToVisual(_G);
+      scene.add(temp[0]);
+      scene.add(temp[1]);
+    }
+    return _G;
+  } else if (source.isShaft) {
+    const _G = new Gear(notchCount);
+    source.connect(_G);
+    gearArr.push(_G);
+    if (_color) {
+      const temp = MainGraphicsController.addGearToVisual(
+        _G,
+        new THREE.MeshLambertMaterial({ flatShading: true, color: _color })
+      );
+      scene.add(temp[0]);
+      scene.add(temp[1]);
+    } else {
+      const temp = MainGraphicsController.addGearToVisual(_G);
+      scene.add(temp[0]);
+      scene.add(temp[1]);
+    }
+    return _G;
+  }
+  return false;
+}
 
-const gearObjArr = [
-  MainGraphicsController.addGearToVisual(Gear1),
-  MainGraphicsController.addGearToVisual(Gear2),
-  MainGraphicsController.addGearToVisual(Gear3),
-  MainGraphicsController.addGearToVisual(Gear4),
-  MainGraphicsController.addGearToVisual(Gear5),
-  MainGraphicsController.addGearToVisual(Gear6),
-];
-for (let i = 0; i < gearObjArr.length; i++) {
-  for (let j = 0; j < 2; j++) {
-    scene.add(gearObjArr[i][j]);
+function AddFreeGear(notchCount, pos, _color = null) {
+  const newGear = new Gear(notchCount, pos);
+  gearArr.push(newGear);
+  if (_color) {
+    const temp = MainGraphicsController.addGearToVisual(
+      newGear,
+      new THREE.MeshLambertMaterial({ flatShading: true, color: _color })
+    );
+    scene.add(temp[0]);
+    scene.add(temp[1]);
+  } else {
+    const temp = MainGraphicsController.addGearToVisual(newGear);
+    scene.add(temp[0]);
+    scene.add(temp[1]);
+  }
+  return newGear;
+}
+
+function AddShaft(source, capacity, direction = "OVER", _color = null) {
+  if (source.isGear && !source.isShaftConnected) {
+    const _S = new Shaft(source, capacity, direction);
+    source.connect(_S);
+    let dirIndex = direction == "OVER" ? -1 : direction == "UNDER" ? 1 : 0;
+    if (_color) {
+      scene.add(
+        MainGraphicsController.addShaftToVisual(
+          _S,
+          dirIndex,
+          new THREE.MeshLambertMaterial({ flatShading: true, color: _color })
+        )
+      );
+    } else {
+      scene.add(MainGraphicsController.addShaftToVisual(_S, dirIndex));
+    }
+    shaftArr.push(_S);
+    return _S;
+  } else {
+    return false;
   }
 }
 
-const belt1arr = MainGraphicsController.addBeltToVisual(Belt1);
-for (let x of belt1arr) {
-  for (let y of x) {
-    scene.add(y);
+function AddBelt(source, target, _color = null) {
+  if (source.isGear && target.isGear) {
+    const _B = new Belt(source, target);
+    if (_color) {
+      const temp = MainGraphicsController.addBeltToVisual(
+        _B,
+        new THREE.MeshLambertMaterial({ flatShading: true, color: _color })
+      );
+      for (let arr of temp) {
+        for (let obj of arr) {
+          scene.add(obj);
+        }
+      }
+    } else {
+      const temp = MainGraphicsController.addBeltToVisual(_B);
+      for (let arr of temp) {
+        for (let obj of arr) {
+          scene.add(obj);
+        }
+      }
+    }
+    beltArr.push(_B);
+    return _B;
+  } else {
+    return false;
   }
 }
-//
-scene.add(MainGraphicsController.addShaftToVisual(Shaft1));
+
+/**
+ * Testing
+ */
+let s1 = AddShaft(initGear, 2, "OVER");
+AddGear(8, s1);
+AddGear(12, s1);
+
+AddFreeGear(16, { x: 0, y: 4, z: 12 }, 0xffbbaa);
+AddBelt(gearArr[gearArr.length - 2], gearArr[gearArr.length - 1]);
+
+/**
+ * Testing end
+ */
 
 function testUpdate() {
-  Gear1.rotateAngle(PowerSource.power);
+  initGear.rotateAngle(PowerSource.power);
 }
 
 MainGraphicsController.Update();
@@ -114,3 +214,17 @@ function testAnimate(time) {
 }
 
 renderer.setAnimationLoop(testAnimate);
+
+/**
+ 
+GearArray = [];
+GearArray.push(Connect(Gear1, new Gear(16)));
+
+.
+.
+.
+
+TargetGear = new Gear(24);
+TargetSpeed = new Fraction(1,16);
+
+ */

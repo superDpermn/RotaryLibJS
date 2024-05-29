@@ -24,8 +24,8 @@ export class Belt {
 
       if (this.fullRotatation > 0) {
         this._sum += this.fullRotatation;
-        if (this._sum >= 1) {
-          this._sum -= 2;
+        if (this._sum >= 1 && !this.resetFlag) {
+          this._sum -= 1;
           this.resetFlag = true;
         }
       }

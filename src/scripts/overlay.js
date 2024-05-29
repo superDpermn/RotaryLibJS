@@ -26,6 +26,16 @@ function init() {
   const menu = document.createElement("div");
   menu.id = "menu";
 
+  const backButton = document.createElement("button");
+  backButton.id = "back";
+  backButton.innerHTML = "Main Menu";
+
+  const backButtonLink = document.createElement("a");
+  backButtonLink.href = "./index.html";
+  backButtonLink.appendChild(backButton);
+
+  menu.appendChild(backButtonLink);
+
   const toggleSelect = document.createElement("button");
   toggleSelect.id = "toggleSelect";
 
