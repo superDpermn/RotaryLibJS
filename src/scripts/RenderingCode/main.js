@@ -29,9 +29,11 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 
+camera.position.set(40, 25, 20);
 const orbit = new OrbitControls(camera, renderer.domElement);
 
-camera.position.set(0, 15, 10);
+orbit.target.set(40, 0, 0);
+
 orbit.update();
 
 const color = 0xffffff;
@@ -50,21 +52,28 @@ const MainGraphicsController = new GraphicsController();
 
 //---------------------------------------------------------
 
-const PowerSource = new ConstantSpeedSource(new Fraction(1, 600));
+const PowerSource = new ConstantSpeedSource(new Fraction(1, 6000));
 
-const Gear1 = new Gear(8);
-const Gear2 = new Gear(8);
-const Gear3 = new Gear(12);
+const Gear1 = new Gear(32);
+Gear1.setPosition({ x: 40, y: 0, z: 0 });
+const Gear2 = new Gear(16);
+const Gear3 = new Gear(24);
 const Gear4 = new Gear(16);
-Gear4.setPosition(new THREE.Vector3(10, 0, 0));
+const t = 0;
+const g = 40 + 20;
+Gear4.setPosition(new THREE.Vector3(g, 0, t));
 const Gear5 = new Gear(8);
-Gear5.setPosition(new THREE.Vector3(10, 2, 0));
+Gear5.setPosition(new THREE.Vector3(g, 2, t));
+const Gear6 = new Gear(64);
 
-Gear1.connect(new Belt(Gear1, Gear4));
+const Belt1 = new Belt(Gear1, Gear4);
+
+Gear1.connect(Belt1);
 const Shaft1 = new Shaft(Gear5);
 
 Gear1.connect(Gear2, "LEFT");
 Gear2.connect(Gear3, "UP");
+Gear3.connect(Gear6, "UP");
 Gear4.connect(Shaft1);
 
 const gearObjArr = [
@@ -73,6 +82,7 @@ const gearObjArr = [
   MainGraphicsController.addGearToVisual(Gear3),
   MainGraphicsController.addGearToVisual(Gear4),
   MainGraphicsController.addGearToVisual(Gear5),
+  MainGraphicsController.addGearToVisual(Gear6),
 ];
 for (let i = 0; i < gearObjArr.length; i++) {
   for (let j = 0; j < 2; j++) {
@@ -80,6 +90,13 @@ for (let i = 0; i < gearObjArr.length; i++) {
   }
 }
 
+const belt1arr = MainGraphicsController.addBeltToVisual(Belt1);
+for (let x of belt1arr) {
+  for (let y of x) {
+    scene.add(y);
+  }
+}
+//
 scene.add(MainGraphicsController.addShaftToVisual(Shaft1));
 
 function testUpdate() {

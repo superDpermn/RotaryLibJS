@@ -1,31 +1,38 @@
 import { Fraction } from "./Fraction.js";
 
 export class Belt {
-  constructor(source, ...dest) {
-    this.source = source;
-    if (this.source.isGear) {
-      this.source.connect(this);
-    }
-    this.connections = dest;
+  constructor(source, dest) {
     this.isBelt = true;
-    let temp = 0;
-    for (let i = 0; i < this.connections.length; i++) {
-      temp += this.connections[i].notchCount;
+    this.g1 = source;
+    if (this.g1.isGear) {
+      this.g1.connect(this);
     }
-    this.length = this.source.notchCount + temp;
+    this.g2 = dest;
+    this.length = this.g1.notchCount + this.g2.notchCount;
     this.offsetRotation = new Fraction();
     this.lastRotation = new Fraction();
+    this.fullRotatation = 0;
+    this._sum = 0;
+    this.resetFlag = false;
   }
 
   rotateNotch(amount) {
     if (!amount.isEqual(new Fraction(0))) {
       this.offsetRotation = this.offsetRotation.add(amount);
       this.lastRotation = amount;
-      this.connections.forEach((g) => {
-        if (g.isGear) {
-          g.rotateNotch(amount);
+      this.fullRotatation = this.offsetRotation.normalize();
+
+      if (this.fullRotatation > 0) {
+        this._sum += this.fullRotatation;
+        if (this._sum >= 1) {
+          this._sum -= 2;
+          this.resetFlag = true;
         }
-      });
+      }
+
+      if (this.g2.isGear) {
+        this.g2.rotateNotch(amount);
+      }
     }
   }
 }
