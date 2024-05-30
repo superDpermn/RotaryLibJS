@@ -2,15 +2,22 @@ body {
   margin: 0;
   padding: 0;
   background-color: rgb(7, 55, 103);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 #backButton {
   position: absolute;
   top: 15px;
   left: 15px;
-  padding: 25px;
-  font-size: 30px;
-  width: 200px;
+  padding: 15px;
+  font-size: 20px;
+  width: 150px;
+  background-color: rgb(40, 137, 150);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 #levelButtonContainer {
@@ -24,8 +31,19 @@ body {
   gap: 50px;
 }
 
-#levelButtonContainer > * {
+#levelButtonContainer > button {
   width: 150px;
   height: 150px;
   font-size: 50px;
+  background-color: rgb(40, 137, 150);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+#levelButtonContainer > button:hover {
+  background-color: rgb(40, 137, 150);
+  transform: scale(1.1);
 }
