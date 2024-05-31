@@ -26,6 +26,7 @@ function init() {
   const menu = document.createElement("div");
   menu.id = "menu";
 
+  //
   const backButton = document.createElement("button");
   backButton.id = "back";
   backButton.innerHTML = "Main Menu";
@@ -35,7 +36,51 @@ function init() {
   backButtonLink.appendChild(backButton);
 
   menu.appendChild(backButtonLink);
+  //
+  const cursorPosControls = document.createElement("div");
+  cursorPosControls.id = "cursorPosControls";
 
+  const cpUP = document.createElement("button");
+  cpUP.id = "cpUP";
+  cpUP.innerHTML = "UP";
+
+  const cpDOWN = document.createElement("button");
+  cpDOWN.id = "cpDOWN";
+  cpDOWN.innerHTML = "DOWN";
+
+  const cpLEFT = document.createElement("button");
+  cpLEFT.id = "cpLEFT";
+  cpLEFT.innerHTML = "LEFT";
+
+  const cpRIGHT = document.createElement("button");
+  cpRIGHT.id = "cpRIGHT";
+  cpRIGHT.innerHTML = "RIGHT";
+
+  cursorPosControls.appendChild(cpUP);
+  cursorPosControls.appendChild(cpDOWN);
+  cursorPosControls.appendChild(cpLEFT);
+  cursorPosControls.appendChild(cpRIGHT);
+
+  menu.appendChild(cursorPosControls);
+  //
+
+  const container1 = document.createElement("div");
+  container1.id = "container1";
+
+  const delButton = document.createElement("button");
+  delButton.id = "delButton";
+  delButton.innerHTML = "delete</br>element";
+
+  const addButton = document.createElement("button");
+  addButton.id = "addButton";
+  addButton.innerHTML = "add</br>element";
+
+  container1.appendChild(addButton);
+  container1.appendChild(delButton);
+
+  menu.appendChild(container1);
+
+  //
   const toggleSelect = document.createElement("button");
   toggleSelect.id = "toggleSelect";
 

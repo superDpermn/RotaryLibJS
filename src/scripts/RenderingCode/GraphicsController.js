@@ -20,11 +20,11 @@ export class GraphicsController {
     const customMaterial =
       material ||
       new THREE.MeshLambertMaterial({
-        color: 0x717f98,
+        color: 0x1a1b20,
         flatShading: true,
       });
     const lineMaterial = new THREE.LineBasicMaterial({
-      color: 0xddffff,
+      color: 0x55ffaa,
       linewidth: 1,
     });
     const gearMesh = new THREE.Mesh(customGeometry, customMaterial);
@@ -55,7 +55,7 @@ export class GraphicsController {
     const customMaterial =
       material ||
       new THREE.MeshLambertMaterial({
-        color: 0xaaaaaa,
+        color: 0x686e7b,
         flatShading: true,
       });
     const shaftMesh = new THREE.Mesh(customGeometry, customMaterial);
@@ -75,7 +75,7 @@ export class GraphicsController {
     const customMaterial =
       material ||
       new THREE.MeshLambertMaterial({
-        color: 0x555555,
+        color: 0x191f2b,
         flatShading: true,
       });
     const corners = [
@@ -156,13 +156,14 @@ export class GraphicsController {
       )
     );
 
+    const dist = Math.hypot(
+      belt.g1.position.x - belt.g2.position.x,
+      belt.g1.position.z - belt.g2.position.z
+    );
+
     const angleOffset = Math.atan2(
       belt.g1.notchCount - belt.g2.notchCount,
-      4 *
-        Math.hypot(
-          belt.g1.position.x - belt.g2.position.x,
-          belt.g1.position.z - belt.g2.position.z
-        )
+      4 * dist
     );
 
     linears[0].rotateY(-relAngle + angleOffset);

@@ -430,7 +430,7 @@ function beltLinearGeometry(length) {
   const repeatPeriod = 2 * notchLength;
   let counter = 0;
 
-  for (let i = 0; i < length; i += repeatPeriod) {
+  for (let i = 0; i < length - repeatPeriod; i += repeatPeriod) {
     counter++;
     vertices.push(
       i,
