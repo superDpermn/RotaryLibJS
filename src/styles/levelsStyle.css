@@ -1,49 +1,58 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: rgb(7, 55, 103);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #072637;
+  font-family: 'Arial', Helvetica, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+  color: #ffffff;
 }
 
 #backButton {
   position: absolute;
   top: 15px;
   left: 15px;
-  padding: 15px;
+  padding: 15px 30px;
   font-size: 20px;
-  width: 150px;
-  background-color: rgb(40, 137, 150);
+  background-color: #288996;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#backButton:hover {
+  background-color: #36a3b0;
+  transform: translateY(-2px);
 }
 
 #levelButtonContainer {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
   display: grid;
   grid-template-rows: 1fr 1fr;
   grid-template-columns: repeat(4, 1fr);
   gap: 50px;
+  place-items: center;
 }
 
 #levelButtonContainer > button {
   width: 150px;
   height: 150px;
   font-size: 50px;
-  background-color: rgb(40, 137, 150);
+  background-color: #288996;
   color: white;
   border: none;
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 #levelButtonContainer > button:hover {
-  background-color: rgb(40, 137, 150);
+  background-color: #36a3b0;
   transform: scale(1.1);
 }

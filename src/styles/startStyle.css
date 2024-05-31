@@ -1,45 +1,63 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: rgb(7, 55, 103);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #072637;
+  font-family: 'Arial', Helvetica, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+  color: #ffffff;
 }
 
 #titleContainer {
-  position: absolute;
-  top: 100px;
-  left: 50%;
-  transform: translateX(-50%);
   font-size: 50px;
   font-weight: 700;
-  background-color: rgb(40, 137, 150);
-  width: 800px;
+  background-color: #288996;
+  width: 80%;
+  max-width: 800px;
   text-align: center;
   color: white;
   padding: 20px;
   border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 50px;
 }
 
 #navButtons {
-  position: absolute;
-  top: 420px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 800px;
-  display: grid;
-  gap: 300px;
-  grid-template-columns: 1fr 1fr;
-  height: 70px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+}
+
+#navButtons > a {
+  text-decoration: none;
 }
 
 #navButtons > a > button {
-  font-size: 75px;
+  font-size: 24px;
   font-weight: 600;
-  background-color: rgb(40, 137, 150);
+  background-color: #288996;
   color: white;
   border: none;
   border-radius: 10px;
-  padding: 20px;
+  padding: 15px 30px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#navButtons > a > button:hover {
+  background-color: #36a3b0;
+  transform: translateY(-5px);
+}
+
+#navButtons > a > button:active {
+  transform: translateY(-2px);
+}
+
+#titleContainer h1 {
+  margin: 0;
 }
