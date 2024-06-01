@@ -6,6 +6,7 @@ import { Belt } from "../InnerCalculations/Belt.js";
 import { Shaft } from "../InnerCalculations/Shaft.js";
 import { Fraction } from "../InnerCalculations/Fraction.js";
 import { ConstantSpeedSource } from "../InnerCalculations/Source.js";
+import { scenario1 } from "../scenario.js";
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 
@@ -63,7 +64,7 @@ export const shaftArr = [];
 export const beltArr = [];
 
 // Initial Gear
-const initGear = gearArr[0];
+export const initGear = gearArr[0];
 let temp = MainGraphicsController.addGearToVisual(initGear);
 scene.add(temp[0]);
 scene.add(temp[1]);
@@ -229,14 +230,7 @@ function updateCameraPosition() {
 }
 
 // Testing
-let s1 = AddShaft(initGear, 2, "OVER");
-AddGear(8, s1);
-AddGear(12, s1);
-AddFreeGear(16, { x: 16, y: 4, z: 0 });
-AddGear(32, gearArr[1], "LEFT");
-
-AddBelt(gearArr[2], gearArr[3]);
-
+scenario1();
 // Update method
 function Update() {
   initGear.rotateAngle(PowerSource.power);
