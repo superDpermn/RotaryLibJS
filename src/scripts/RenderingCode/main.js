@@ -6,6 +6,7 @@ import { Belt } from "../InnerCalculations/Belt.js";
 import { Shaft } from "../InnerCalculations/Shaft.js";
 import { Fraction } from "../InnerCalculations/Fraction.js";
 import { ConstantSpeedSource } from "../InnerCalculations/Source.js";
+import { Cursor } from "./Cursor.js";
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 
@@ -48,6 +49,8 @@ light2.position.set(0, -50, -30);
 light2.target.position.set(0, 0, 0);
 scene.add(light2);
 
+scene.add(Cursor);
+
 // Main Graphics Controller
 const MainGraphicsController = new GraphicsController();
 
@@ -58,9 +61,9 @@ const PowerSource = new ConstantSpeedSource(
 );
 
 // Arrays to hold gears, shafts, and belts
-const gearArr = [new Gear(16)];
-const shaftArr = [];
-const beltArr = [];
+export const gearArr = [new Gear(16)];
+export const shaftArr = [];
+export const beltArr = [];
 
 // Initial Gear
 const initGear = gearArr[0];
@@ -69,7 +72,7 @@ scene.add(temp[0]);
 scene.add(temp[1]);
 
 // Function to add gear
-function AddGear(notchCount, source, direction = "UP", _color = null) {
+export function AddGear(notchCount, source, direction = "NONE", _color = null) {
   const checkIndex =
     direction === "LEFT"
       ? 0
@@ -119,7 +122,7 @@ function AddGear(notchCount, source, direction = "UP", _color = null) {
 }
 
 // Function to add free gear
-function AddFreeGear(notchCount, pos, _color = null) {
+export function AddFreeGear(notchCount, pos, _color = null) {
   const newGear = new Gear(notchCount, pos);
   gearArr.push(newGear);
   if (_color) {
@@ -138,7 +141,7 @@ function AddFreeGear(notchCount, pos, _color = null) {
 }
 
 // Function to add shaft
-function AddShaft(source, capacity, direction = "OVER", _color = null) {
+export function AddShaft(source, capacity, direction = "OVER", _color = null) {
   if (source.isGear && !source.isShaftConnected) {
     const _S = new Shaft(source, capacity, direction);
     source.connect(_S);
@@ -162,7 +165,7 @@ function AddShaft(source, capacity, direction = "OVER", _color = null) {
 }
 
 // Function to add belt
-function AddBelt(source, target, _color = null) {
+export function AddBelt(source, target, _color = null) {
   if (source.isGear && target.isGear) {
     const _B = new Belt(source, target);
     if (_color) {
@@ -236,19 +239,19 @@ AddGear(12, s1);
 AddFreeGear(16, { x: 16, y: 4, z: 0 });
 AddBelt(gearArr[gearArr.length - 2], gearArr[gearArr.length - 1]);
 
-// Test Update
-function testUpdate() {
+// Update method
+function Update() {
   initGear.rotateAngle(PowerSource.power);
 }
 
 MainGraphicsController.Update();
 
 // Animation Loop
-function testAnimate(time) {
-  testUpdate();
+function Animate(time) {
+  Update();
   updateCameraPosition(); // Update camera position based on input
   MainGraphicsController.Update();
   renderer.render(scene, camera);
 }
 
-renderer.setAnimationLoop(testAnimate);
+renderer.setAnimationLoop(Animate);

@@ -27,6 +27,7 @@ export class Gear {
     this.isGear = true;
     this.isShaftConnected = false;
     this.occuStatus = [true, true, true, true];
+    this.direction = "NONE";
   }
 
   setPosition(newPosition) {
@@ -47,6 +48,9 @@ export class Gear {
     if (otherGear.isGear) {
       otherGear.setPosition(newPosition);
       otherGear.align(this);
+      this.direction = angle;
+    } else if (otherGear.isShaft) {
+      this.isShaftConnected = true;
     }
     const arrayIndex =
       angle == "LEFT"

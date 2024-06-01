@@ -56,10 +56,20 @@ function init() {
   cpRIGHT.id = "cpRIGHT";
   cpRIGHT.innerHTML = "RIGHT";
 
+  const cpOVER = document.createElement("button");
+  cpOVER.id = "cpOVER";
+  cpOVER.innerHTML = "OVER";
+
+  const cpUNDER = document.createElement("button");
+  cpUNDER.id = "cpUNDER";
+  cpUNDER.innerHTML = "UNDER";
+
   cursorPosControls.appendChild(cpUP);
   cursorPosControls.appendChild(cpDOWN);
   cursorPosControls.appendChild(cpLEFT);
   cursorPosControls.appendChild(cpRIGHT);
+  cursorPosControls.appendChild(cpOVER);
+  cursorPosControls.appendChild(cpUNDER);
 
   menu.appendChild(cursorPosControls);
   //

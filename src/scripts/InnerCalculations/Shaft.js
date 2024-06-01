@@ -20,7 +20,7 @@ export class Shaft {
     } else {
       this.position = { x: 0, y: 0, z: 0 };
     }
-    this.dir = direction;
+    this.direction = direction;
     this.capacity = capacity > 1 ? Math.floor(capacity) : 1;
     this.connections = [];
     this.offsetRotation = this.parentComponent.offsetRotation || new Fraction();
@@ -34,13 +34,13 @@ export class Shaft {
     }
     if (g.isGear && !g.isShaftConnected) {
       this.connections.push(g);
-      if (this.dir == "OVER") {
+      if (this.direction == "OVER") {
         g.setPosition({
           x: this.position.x,
           y: this.parentComponent.position.y + this.connections.length * 2,
           z: this.position.z,
         });
-      } else if (this.dir == "UNDER") {
+      } else if (this.direction == "UNDER") {
         g.setPosition({
           x: this.position.x,
           y: this.parentComponent.position.y - this.connections.length * 2,
