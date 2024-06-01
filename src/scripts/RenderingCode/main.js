@@ -6,7 +6,7 @@ import { Belt } from "../InnerCalculations/Belt.js";
 import { Shaft } from "../InnerCalculations/Shaft.js";
 import { Fraction } from "../InnerCalculations/Fraction.js";
 import { ConstantSpeedSource } from "../InnerCalculations/Source.js";
-import { scenario1 } from "../scenario.js";
+import * as SC from "../scenario.js";
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 
@@ -229,8 +229,43 @@ function updateCameraPosition() {
   orbit.update(); // Update the OrbitControls
 }
 
-// Testing
-scenario1();
+//Loading the scenario from URL parameter
+function getParameterByName(name) {
+  const url = window.location.href;
+  name = name.replace(/[\[\]]/g, "\\$&");
+  const regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+  const results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return "";
+  return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+// Get the variable from the URL
+const ScenarioIndex = getParameterByName("scenario");
+function loadScenario() {
+  switch (parseInt(ScenarioIndex)) {
+    case 1:
+      SC.scenario1();
+      break;
+    case 2:
+      break;
+    case 3:
+      break;
+    case 4:
+      break;
+    case 5:
+      break;
+    case 6:
+      break;
+    case 7:
+      break;
+    case 8:
+      break;
+  }
+}
+
+loadScenario();
+
 // Update method
 function Update() {
   initGear.rotateAngle(PowerSource.power);
