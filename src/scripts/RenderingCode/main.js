@@ -6,7 +6,6 @@ import { Belt } from "../InnerCalculations/Belt.js";
 import { Shaft } from "../InnerCalculations/Shaft.js";
 import { Fraction } from "../InnerCalculations/Fraction.js";
 import { ConstantSpeedSource } from "../InnerCalculations/Source.js";
-import { Cursor } from "./Cursor.js";
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 
@@ -48,8 +47,6 @@ const light2 = new THREE.DirectionalLight(color, 8);
 light2.position.set(0, -50, -30);
 light2.target.position.set(0, 0, 0);
 scene.add(light2);
-
-scene.add(Cursor);
 
 // Main Graphics Controller
 const MainGraphicsController = new GraphicsController();
@@ -235,9 +232,10 @@ function updateCameraPosition() {
 let s1 = AddShaft(initGear, 2, "OVER");
 AddGear(8, s1);
 AddGear(12, s1);
-
 AddFreeGear(16, { x: 16, y: 4, z: 0 });
-AddBelt(gearArr[gearArr.length - 2], gearArr[gearArr.length - 1]);
+AddGear(32, gearArr[1], "LEFT");
+
+AddBelt(gearArr[2], gearArr[3]);
 
 // Update method
 function Update() {

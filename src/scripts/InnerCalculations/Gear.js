@@ -48,7 +48,7 @@ export class Gear {
     if (otherGear.isGear) {
       otherGear.setPosition(newPosition);
       otherGear.align(this);
-      this.direction = angle;
+      otherGear.direction = angle;
     } else if (otherGear.isShaft) {
       this.isShaftConnected = true;
     }
