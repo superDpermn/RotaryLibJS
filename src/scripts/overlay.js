@@ -37,58 +37,58 @@ function init() {
 
   menu.appendChild(backButtonLink);
   //
-  const cursorPosControls = document.createElement("div");
-  cursorPosControls.id = "cursorPosControls";
+  // const cursorPosControls = document.createElement("div");
+  // cursorPosControls.id = "cursorPosControls";
 
-  const cpUP = document.createElement("button");
-  cpUP.id = "cpUP";
-  cpUP.innerHTML = "UP";
+  // const cpUP = document.createElement("button");
+  // cpUP.id = "cpUP";
+  // cpUP.innerHTML = "UP";
 
-  const cpDOWN = document.createElement("button");
-  cpDOWN.id = "cpDOWN";
-  cpDOWN.innerHTML = "DOWN";
+  // const cpDOWN = document.createElement("button");
+  // cpDOWN.id = "cpDOWN";
+  // cpDOWN.innerHTML = "DOWN";
 
-  const cpLEFT = document.createElement("button");
-  cpLEFT.id = "cpLEFT";
-  cpLEFT.innerHTML = "LEFT";
+  // const cpLEFT = document.createElement("button");
+  // cpLEFT.id = "cpLEFT";
+  // cpLEFT.innerHTML = "LEFT";
 
-  const cpRIGHT = document.createElement("button");
-  cpRIGHT.id = "cpRIGHT";
-  cpRIGHT.innerHTML = "RIGHT";
+  // const cpRIGHT = document.createElement("button");
+  // cpRIGHT.id = "cpRIGHT";
+  // cpRIGHT.innerHTML = "RIGHT";
 
-  const cpOVER = document.createElement("button");
-  cpOVER.id = "cpOVER";
-  cpOVER.innerHTML = "OVER";
+  // const cpOVER = document.createElement("button");
+  // cpOVER.id = "cpOVER";
+  // cpOVER.innerHTML = "OVER";
 
-  const cpUNDER = document.createElement("button");
-  cpUNDER.id = "cpUNDER";
-  cpUNDER.innerHTML = "UNDER";
+  // const cpUNDER = document.createElement("button");
+  // cpUNDER.id = "cpUNDER";
+  // cpUNDER.innerHTML = "UNDER";
 
-  cursorPosControls.appendChild(cpUP);
-  cursorPosControls.appendChild(cpDOWN);
-  cursorPosControls.appendChild(cpLEFT);
-  cursorPosControls.appendChild(cpRIGHT);
-  cursorPosControls.appendChild(cpOVER);
-  cursorPosControls.appendChild(cpUNDER);
+  // cursorPosControls.appendChild(cpUP);
+  // cursorPosControls.appendChild(cpDOWN);
+  // cursorPosControls.appendChild(cpLEFT);
+  // cursorPosControls.appendChild(cpRIGHT);
+  // cursorPosControls.appendChild(cpOVER);
+  // cursorPosControls.appendChild(cpUNDER);
 
-  menu.appendChild(cursorPosControls);
+  // menu.appendChild(cursorPosControls);
   //
 
-  const container1 = document.createElement("div");
-  container1.id = "container1";
+  // const container1 = document.createElement("div");
+  // container1.id = "container1";
 
-  const delButton = document.createElement("button");
-  delButton.id = "delButton";
-  delButton.innerHTML = "delete</br>element";
+  // const delButton = document.createElement("button");
+  // delButton.id = "delButton";
+  // delButton.innerHTML = "delete</br>element";
 
-  const addButton = document.createElement("button");
-  addButton.id = "addButton";
-  addButton.innerHTML = "add</br>element";
+  // const addButton = document.createElement("button");
+  // addButton.id = "addButton";
+  // addButton.innerHTML = "add</br>element";
 
-  container1.appendChild(addButton);
-  container1.appendChild(delButton);
+  // container1.appendChild(addButton);
+  // container1.appendChild(delButton);
 
-  menu.appendChild(container1);
+  // menu.appendChild(container1);
 
   //
   const toggleSelect = document.createElement("button");

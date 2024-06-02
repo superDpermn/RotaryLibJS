@@ -62,7 +62,7 @@ export class Fraction {
     } else {
       newNumerator = 0;
     }
-    let diff = (oldNumerator - newNumerator) / this.denominator;
+    let diff = Math.abs((oldNumerator - newNumerator) / this.denominator);
     this.numerator = newNumerator;
     return diff;
   }
