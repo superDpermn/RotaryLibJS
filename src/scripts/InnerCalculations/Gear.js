@@ -55,7 +55,7 @@ export class Gear {
     const arrayIndex =
       angle == "LEFT"
         ? 0
-        : angle == "TOP"
+        : angle == "UP"
         ? 1
         : angle == "RIGHT"
         ? 2
