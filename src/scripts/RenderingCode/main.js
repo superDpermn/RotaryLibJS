@@ -14,10 +14,6 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 renderer.setClearColor(new THREE.Color(0x10161c));
 
-// UI Overlay
-const UIOverlay = document.createElement("div");
-document.body.appendChild(UIOverlay);
-
 //------------------------------------------------------------
 const scene = new THREE.Scene();
 
@@ -245,28 +241,28 @@ const ScenarioIndex = getParameterByName("scenario");
 function loadScenario() {
   switch (parseInt(ScenarioIndex)) {
     case 1:
-        SC.scenario1();
+      SC.scenario1();
       break;
     case 2:
-        SC.scenario2();
+      SC.scenario2();
       break;
     case 3:
-        SC.scenario3();
+      SC.scenario3();
       break;
     case 4:
-        SC.scenario4();
+      SC.scenario4();
       break;
     case 5:
-        SC.scenario5();
+      SC.scenario5();
       break;
     case 6:
-        SC.scenario6();
+      SC.scenario6();
       break;
     case 7:
-        SC.scenario7();
+      SC.scenario7();
       break;
     case 8:
-        SC.scenario8();
+      SC.scenario8();
       break;
   }
 }
